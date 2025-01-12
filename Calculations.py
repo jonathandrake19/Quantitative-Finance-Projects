@@ -2,8 +2,6 @@ import numpy as np
 import Data_Downloader as dd
 from scipy.stats import norm
 from datetime import date, datetime, timedelta
-import scipy.sparse as sparse
-from scipy.sparse.linalg import spsolve
 import matplotlib.pyplot as plt
 
 ticker = 'AAPL'
