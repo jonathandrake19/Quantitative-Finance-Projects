@@ -72,7 +72,7 @@ if S_0 and K and expiry and sigma_0:
 
         #put-call parity to find V for puts
         difference = (K*np.exp(-r*tau_0) - S_0)
-        V_0_put = V_0 + difference
+        V_0_put = V_0_call + difference
 
         V_matrix_puts = calc.european_put(x, K, tau, y, r)
 
