@@ -2,16 +2,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import Data_Downloader as dd
 import time
-#General info on investment e.g. company, timeframe, location etc.
-ticker = 'AAPL'
-country = 'uk'
-duration = '1Y'
+
 #General info on investment e.g. company, timeframe, location etc.
 ticker = 'AAPL'
 country = 'uk'
 duration = '1Y'
 if __name__ == "__main__":
     start_time = time.time()
+
 #Info on time series for the Monte Carlo Simulation
     T = 1/12
     N = 21
