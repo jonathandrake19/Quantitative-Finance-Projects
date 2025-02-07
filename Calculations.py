@@ -1,7 +1,11 @@
 import numpy as np
 import Data_Downloader as dd
 from scipy.stats import norm
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
+
+ticker = 'AAPL'
+country = 'uk'
+duration = 30
 
 def european_call(S, K, tau, sigma, r):
     d_1 = (np.log(S/K) + (r + (sigma**2/2)) * (tau))/(sigma * np.sqrt(tau))
@@ -14,10 +18,10 @@ def european_put(S, K, tau, sigma, r):
     return K*np.exp(-r*tau)*norm.cdf(-d_2) - S*norm.cdf(-d_1)
 
 def us_option(K, sigma, tau, r, option_type):
-    S_steps = 200
-    t_steps = 200
+    S_steps = 150
+    t_steps = 150
 
-    S_max = 400
+    S_max = K*2
 
     dS = S_max / S_steps
     dt = tau / t_steps
@@ -80,7 +84,47 @@ def us_option(K, sigma, tau, r, option_type):
 
     return S, t, V
 
-def implied_vol(ticker, country, expiry):
+def implied_vol(ticker, K, q, expiry, option_type):
+
+        calls, puts = dd.option_data(ticker, expiry)
+
+        S = dd.current_price(ticker)
+        r = dd.risk_free_rate('uk', 30)
+        T = datetime.strptime(expiry, '%Y-%m-%d').date()
+        today = date.today()
+        t = np.busday_count(today, T + timedelta(days=1))
+        
+        max_iter = 200
+        tol = 0.00001
+        if option_type == 'call':
+            current_price = calls[calls['strike'] == K]['lastPrice'].values[0]
+        if option_type == 'put':
+            current_price = puts[puts['strike'] == K]['lastPrice'].values[0]
+        
+        vol_old = 0.3
+
+        for _ in range(max_iter):
+            d_1 = (np.log(S/K) + (r + (vol_old**2/2)) * (t))/(vol_old * np.sqrt(t))
+            vega = S * np.exp(-q * t) * np.sqrt(t) * norm.pdf(d_1)
+
+            if option_type == 'call':
+                bs_price = european_call(S, K, t, vol_old/np.sqrt(252), r/252)
+            if option_type == 'put':
+                bs_price = european_put(S, K, t, vol_old/np.sqrt(252), r/252)
+
+            vol_new = vol_old - ((bs_price - current_price) / vega)
+
+            if vol_new <= 0:
+                return vol_old
+
+            if abs(vol_old - vol_new) < tol:
+                break
+
+            vol_old = vol_new
+
+        return vol_new
+
+def implied_vol2(ticker, country, expiry):
     #equation for volatility from https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=f93ec305fdc3960860548db0934e8615ee01f881
     def calculation(K, C, T):
         X = K*np.exp(-r*T)
