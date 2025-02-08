@@ -28,8 +28,10 @@ elif option_type == 'US': #downloads option data for stock from Yahoo finance as
     tk = yf.Ticker(ticker)
     S_0 = 0
     if ticker:
-        
-        expiry = st.sidebar.selectbox('Expiration date: ', tk.options)
+        dates = tk.options
+        if dates[0] == date.today():
+            dates = dates[1:]
+        expiry = st.sidebar.selectbox('Expiration date: ', dates)
 
         calls, puts = dd.option_data(ticker, expiry)
 
