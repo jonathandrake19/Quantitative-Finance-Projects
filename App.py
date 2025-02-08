@@ -229,7 +229,7 @@ if S_0 and K and expiry and sigma_0:
             st.markdown('### Call Option ###')
             st.write(f'Current fair price: ${round(V_call_current, 2)}')
             st.pyplot(fig_c)
-            st.write(sigma_0)
+            
 
         with col2:
             st.markdown('### Put Option ###')
