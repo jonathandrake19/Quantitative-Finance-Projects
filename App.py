@@ -166,8 +166,8 @@ if S_0 and K and expiry and sigma_0:
         
         for i, t_val in enumerate(t):
             for j, S_val in enumerate(S):
-                V_calls[j][i] = max(S_val - S_0, calc.european_call(S_val, K, t_val, sigma_0/np.sqrt(252), r/252))
-                V_puts[j][i] = max(S_val - S_0, calc.european_put(S_val, K, t_val, sigma_0/np.sqrt(252), r/252))
+                V_calls[j][i] = max(S_val - K, calc.european_call(S_val, K, t_val, sigma_0/np.sqrt(252), r/252))
+                V_puts[j][i] = max(K - S_val, calc.european_put(S_val, K, t_val, sigma_0/np.sqrt(252), r/252))
 
         PnL_calls = V_calls - V_0
         PnL_puts = V_puts - V_0
