@@ -45,7 +45,8 @@ elif option_type == 'US': #downloads option data for stock from Yahoo finance as
 
 #once inputs are recieved determine whether European or US and solve BSE to generate a price matrix
 if S_0 and K and expiry and sigma_0:
-    r = dd.risk_free_rate('uk', 30)/252
+    #r = dd.risk_free_rate('uk', 30)/252
+    r = 0.05/252
     T = datetime.strptime(expiry, '%Y-%m-%d').date()
     t = date.today()
     tau_0 = np.busday_count(t,T+timedelta(days=1))
