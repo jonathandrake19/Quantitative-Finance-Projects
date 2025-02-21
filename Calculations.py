@@ -89,7 +89,8 @@ def implied_vol(ticker, K, q, expiry, option_type):
         calls, puts = dd.option_data(ticker, expiry)
 
         S = dd.current_price(ticker)
-        r = dd.risk_free_rate('uk', 30)
+        #r = dd.risk_free_rate('uk', 30)
+        r = 0.05
         T = datetime.strptime(expiry, '%Y-%m-%d').date()
         today = date.today()
         t = np.busday_count(today, T + timedelta(days=1))
