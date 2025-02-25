@@ -151,7 +151,9 @@ if S_0 and K and expiry and sigma_0:
         st.sidebar.header("Variables")
         S_start = int(S_0) - 10
         S_end = int(S_0) + 10
-        S_range = st.sidebar.slider('Underlying Asset Price: ', min_value= (S_0 - 100), max_value= (S_0 + 100), value=(S_start, S_end),
+        S_min = int(S_0) - 100
+        S_max = int(S_0) + 100
+        S_range = st.sidebar.slider('Underlying Asset Price: ', min_value= S_min, max_value= S_max, value=(S_start, S_end),
                                     step=1, format='%d')
         
         t_start = 0
