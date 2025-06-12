@@ -24,10 +24,10 @@ if option_type == 'European':
     S_0 = float(st.sidebar.text_input('Current asset price: ', '0'))
 
 elif option_type == 'US': #downloads option data for stock from Yahoo finance as US options are commonly traded
-    ticker = st.sidebar.text_input('Stock ticker: ', '')
-    tk = yf.Ticker(ticker)
+    ticker = st.sidebar.text_input('Stock ticker: ', '') 
     S_0 = 0
     if ticker:
+        tk = yf.Ticker(ticker)
         dates = tk.options
         if dates[0] == date.today():
             dates = dates[1:]
