@@ -75,7 +75,7 @@ def option_data(ticker, expiry): #returns 2 pandas dataframes, 1 for calls, 1 fo
     options = pd.concat([options, calls, puts], ignore_index = True)
     
     options = options.drop(columns= ['lastTradeDate', 'inTheMoney', 'contractSize', 'currency', 'percentChange', 'change', 
-                                     'volume', 'impliedVolatility', 'bid', 'ask'])
+                                     'volume', 'impliedVolatility', 'openInterest'])
     
     calls = pd.DataFrame(columns=options.columns)
     puts = pd.DataFrame(columns=options.columns)
@@ -95,5 +95,6 @@ def current_price(ticker):
     tk = yf.Ticker(ticker)
     S = (tk.history(period = '1d')['Close']).item()
     return S
+
 
 
